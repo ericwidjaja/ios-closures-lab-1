@@ -193,7 +193,6 @@ let sumTotalNumbers = numbers.reduce(0, {$0 + $1})
 print("Sum all numbers in the array, using reduce:",sumTotalNumbers, separator: "\n", terminator: "\n\n")
 ```
 
-```
 ## Question 9
 
 Implement a function `forEach(array: [Int], _ closure: Int -> ())` that takes an array of integers and a closure and runs the closure for each element of the array.
@@ -216,6 +215,17 @@ Output:
 16
 ```
 
+```swift
+func forEach(_ array: [Int], _ closure: (Int) -> ()){
+    for i in array{
+        closure(i)
+    }
+}
+
+forEach([1, 2, 3, 4]) {
+    print("", $0 * $0)
+}
+```
 ## Question 10
 
 Implement a function `combineArrays` that takes 2 arrays and a closure that combines 2 Ints into a single Int. The function combines the two arrays into a single array using the provided closure. Assume that the 2 arrays have equal length.
@@ -229,11 +239,25 @@ var array2 = [5,5,5,3]
 combineArrays(array1,array2) {
     $0 * $1
 }
-```
-
 Output: `[5,10,15,12]`
+```
+```swift
+
+func combinedArrays(_ arr1: [Int], _ arr2: [Int], _ closure: (Int, Int) -> Int ) -> [Int] {
+    var singleArray = [Int]()
+    for i in 0..<arr1.count {
+        singleArray.append(closure(arr1[i], arr2[i]))
+    }
+    return singleArray
+}
 
 
+var array1 = [1,2,3,4]
+var array2 = [5,5,5,3]
+let singleArray = combinedArrays(array1,array2) { $0 * $1 }
+
+print("The combined two arrays: \(singleArray)", terminator: "  ")
+```
 ## Question 11
 
 a) Write a function called `intsToStrings` that takes an array of Ints and a closure as parameters and returns an array of Strings. The closure should take an Int and return a String. The function should apply the closure to the ints in the array.
@@ -276,7 +300,12 @@ a) Sort `myArray` in ascending order by defining the constant `ascendingOrder` b
 let mySortedArray = myArray.sort(ascendingOrder)
 let ascendingOrder =
 ```
-
+```swift
+let ascendingOrder = { (a: Int, b: Int) in
+    a < b
+}
+let mySortedArray = myArray.sorted(by: ascendingOrder)
+```
 b) Sort `myArray` in descending order by defining the constant `descendingOrder` below.
 
 ```swift
@@ -284,7 +313,13 @@ let mySecondSortedArray = myArray.sort(descendingOrder)
 let descendingOrder =
 ```
 
+```swift
+let descendingOrder = { (a: Int, b: Int) in 
+    a > b
+}
+let mySecondSortedArray = myArray.sorted(by: descendingOrder)
 
+```
 ## Question 13
 
 `let arrayOfArrays = [[3,65,2,4],[25,3,1,6],[245,2,3,5,74]]`
@@ -346,7 +381,6 @@ let firstAndLastTuples = [("Johann S.", "Bach"),
 ("Scott","Joplin"),
 ("Josquin","Des Prez")]
 ```
-
 Sort the array of tuples by last name. Print the sorted array using string interpolation so that the output looks like:
 
 ```swift
@@ -354,7 +388,26 @@ Bach, Johann S.
 Des Prez, Josquin
 ...etc
 ```
+```swift
 
+let firstAndLastTuples = [("Johann S.", "Bach"),
+("Claudio", "Monteverdi"),
+("Duke", "Ellington"),
+("W. A.", "Mozart"),
+("Nicolai","Rimsky-Korsakov"),
+("Scott","Joplin"),
+("Josquin","Des Prez")]
+
+func sortedByLastName(_ arrNameTuples: [(String, String)]) {
+    let sortedNames = arrNameTuples.sorted(by: { $0.1 < $1.1 })
+
+    for n in sortedNames {
+    print("\(n.1), \(n.0)")
+    }
+}
+
+sortedByLastName(firstAndLastTuples)
+```
 ## Question 16
 
 a) Write a function called `myFilter` that takes an array of Doubles and a closure as parameters and returns an array of Doubles. The closure should take a Double and return a Bool. The function should apply the closure to the doubles in the array.
